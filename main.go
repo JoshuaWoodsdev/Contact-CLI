@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net/mail"
+	"os"
 )
 
 /*
@@ -48,14 +50,50 @@ func addContact(name, phone, email, note string) {
 	fmt.Println("COntact has been added")
 }
 
+func displayContacts() {
+	if len(contacts) == 0 {
+		fmt.Println("No contacts are avaible")
+		return
+	}
+
+	fmt.Println("Availble contacts")
+	for _, contact := range contacts {
+		fmt.Println("- Name: " + contact.Name + ", Email: " + contact.Email)
+	}
+}
+
+// delete contact
+func deleteContact() {
+	displayContacts()
+
+	var nameToDelete string
+	fmt.Println("\nEnter the name of the contact to delete:")
+	fmt.Scanln(&nameToDelete)
+
+	found := false
+	for i, contact := range contacts {
+		if contact.Name == nameToDelete {
+			contacts = append(contacts[:i], contacts[i+1:]...) // Corrected line
+			fmt.Println("Contact deleted successfully.")
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		fmt.Println("Contact not found.")
+	}
+}
+
 func main() {
 	//Controll flow if than runs in main
+	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Println("Welcome to the ContactBook App")
 
 		fmt.Println("\nPlease choose an option:")
 		fmt.Println("1: Add Contact")
-		fmt.Println("2: View Contacts")
+		fmt.Println("2: Display Contacts")
 		fmt.Println("3: Delete Contact")
 		fmt.Println("4: Exit")
 
@@ -63,10 +101,12 @@ func main() {
 		var choice int
 		fmt.Scanln(&choice)
 
+		fmt.Println("Your choices")
+
 		switch choice {
-		case 1:
-		case 2:
-		case 3:
+		case 1: //addContact func
+		case 2: //view contact func do a loop to view the splice print to cli
+		case 3: //delete
 		case 4:
 			fmt.Println("Exit")
 			return
@@ -74,19 +114,5 @@ func main() {
 			fmt.Println("Invalid choice")
 		}
 	}
-
-	//user welcome prompt something that says welcome to the app
-	/*write a for loop that wraps a... a case statment that has 3 otpions
-		   add contant
-		   view contacts
-	       delete contact
-	*/
-
-	//also I think  things would be I would be setting up for user arguments. we are looking at
-	/*
-	  1 for the program itself,
-	  2 the users choice
-	  3 would be for "addcontact and delete"
-	*/
 
 }
