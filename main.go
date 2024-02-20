@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/mail"
 	"os"
+	"strings"
 )
 
 /*
@@ -30,7 +31,7 @@ func valid(email string) bool {
 	return err == nil
 }
 
-// Core functions    (core logic for program)
+// Core functions (core logic for program)
 func addContact(name, phone, email, note string) {
 	if !valid(email) {
 		fmt.Println("Invalid email format")
@@ -47,7 +48,7 @@ func addContact(name, phone, email, note string) {
 
 	//add new contact to the slice
 	contacts = append(contacts, newContact)
-	fmt.Println("COntact has been added")
+	fmt.Println("Contact has been added")
 }
 
 func displayContacts() {
@@ -86,10 +87,10 @@ func deleteContact() {
 }
 
 func main() {
-	//Controll flow if than runs in main
 	reader := bufio.NewReader(os.Stdin)
+
 	for {
-		fmt.Println("Welcome to the ContactBook App")
+		fmt.Println("\nWelcome to the ContactBook App")
 
 		fmt.Println("\nPlease choose an option:")
 		fmt.Println("1: Add Contact")
@@ -97,22 +98,38 @@ func main() {
 		fmt.Println("3: Delete Contact")
 		fmt.Println("4: Exit")
 
-		//create var to hold user choice
-		var choice int
-		fmt.Scanln(&choice)
+		fmt.Print("Your choice: ")
+		choiceStr, _ := reader.ReadString('\n')
+		choiceStr = strings.TrimSpace(choiceStr)
 
-		fmt.Println("Your choices")
+		switch choiceStr {
+		case "1":
+			fmt.Println("Enter Name:")
+			name, _ := reader.ReadString('\n')
+			name = strings.TrimSpace(name)
 
-		switch choice {
-		case 1: //addContact func
-		case 2: //view contact func do a loop to view the splice print to cli
-		case 3: //delete
-		case 4:
-			fmt.Println("Exit")
+			fmt.Println("Enter Phone:")
+			phone, _ := reader.ReadString('\n')
+			phone = strings.TrimSpace(phone)
+
+			fmt.Println("Enter Email:")
+			email, _ := reader.ReadString('\n')
+			email = strings.TrimSpace(email)
+
+			fmt.Println("Enter Note:")
+			note, _ := reader.ReadString('\n')
+			note = strings.TrimSpace(note)
+
+			addContact(name, phone, email, note)
+		case "2":
+			displayContacts()
+		case "3":
+			deleteContact()
+		case "4":
+			fmt.Println("Exiting the application.")
 			return
 		default:
-			fmt.Println("Invalid choice")
+			fmt.Println("Invalid choice, please try again.")
 		}
 	}
-
 }
