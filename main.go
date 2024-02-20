@@ -8,11 +8,6 @@ import (
 	"strings"
 )
 
-/*
-Constants and Variables
-*/
-const appName = "Contact Book"
-
 type Contact struct {
 	Name  string
 	Phone string
