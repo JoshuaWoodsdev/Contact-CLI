@@ -6,6 +6,8 @@ import (
 	"net/mail"
 	"os"
 	"strings"
+	
+	//work on adding this "jsonManagement/jsonmanager"
 )
 
 type Contact struct {
