@@ -81,6 +81,17 @@ func deleteContact() {
 	}
 }
 
+// helper function
+func readAndTrim(reader *bufio.Reader, prompt string) string {
+	fmt.Println(prompt)
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Error reading input:", err)
+		return ""
+	}
+	return strings.TrimSpace(input)
+}
+
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 
@@ -99,21 +110,10 @@ func main() {
 
 		switch choiceStr {
 		case "1":
-			fmt.Println("Enter Name:")
-			name, _ := reader.ReadString('\n')
-			name = strings.TrimSpace(name)
-
-			fmt.Println("Enter Phone:")
-			phone, _ := reader.ReadString('\n')
-			phone = strings.TrimSpace(phone)
-
-			fmt.Println("Enter Email:")
-			email, _ := reader.ReadString('\n')
-			email = strings.TrimSpace(email)
-
-			fmt.Println("Enter Note:")
-			note, _ := reader.ReadString('\n')
-			note = strings.TrimSpace(note)
+			name := readAndTrim(reader, "Enter your name:")
+			phone := readAndTrim(reader, "Enter your phone number:")
+			email := readAndTrim(reader, "Enter your email:")
+			note := readAndTrim(reader, "Enter a note about the contact:")
 
 			addContact(name, phone, email, note)
 		case "2":
@@ -127,4 +127,5 @@ func main() {
 			fmt.Println("Invalid choice, please try again.")
 		}
 	}
+
 }
