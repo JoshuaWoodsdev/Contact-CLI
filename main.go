@@ -6,8 +6,6 @@ import (
 	"net/mail"
 	"os"
 	"strings"
-	
-	//work on adding this "jsonManagement/jsonmanager"
 )
 
 type Contact struct {
@@ -15,7 +13,7 @@ type Contact struct {
 	Phone string
 	Email string
 	About string
-}
+} //create a common folder for structs
 
 // Create slice of Contact
 var contacts []Contact
