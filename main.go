@@ -2,21 +2,24 @@ package main
 
 import (
 	"bufio"
+	"contact-cli/contact"
+	"contact-cli/storage"
 	"fmt"
 	"net/mail"
 	"os"
 	"strings"
 )
 
-type Contact struct {
+/*(type Contact struct {
 	Name  string
 	Phone string
 	Email string
 	About string
 } //create a common folder for structs
+*/
 
 // Create slice of Contact
-var contacts []Contact
+var contacts []contact.Contact
 
 //Create functions and methods that will alter the struct data
 
@@ -34,7 +37,7 @@ func addContact(name, phone, email, note string) {
 	}
 
 	//If clear delcares and creates a new contact type here define and desribe it
-	newContact := Contact{
+	newContact := contact.Contact{
 		Name:  name,
 		Phone: phone,
 		Email: email,
@@ -95,6 +98,14 @@ func readAndTrim(reader *bufio.Reader, prompt string) string {
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 
+	var err error
+	contacts, err = storage.LoadContactsFromFile("contacts.json")
+	if err != nil {
+		fmt.Println("Error loading contacts:", err)
+		// Handle error or initialize contacts as an empty slice
+		contacts = []contact.Contact{}
+	}
+
 	for {
 		fmt.Println("\nWelcome to the ContactBook App")
 
@@ -121,7 +132,10 @@ func main() {
 		case "3":
 			deleteContact()
 		case "4":
-			fmt.Println("Exiting the application.")
+			err := storage.SaveContactsToFile(contacts, "contacts.json")
+			if err != nil {
+				fmt.Println("Error saving contacts:", err)
+			}
 			return
 		default:
 			fmt.Println("Invalid choice, please try again.")
